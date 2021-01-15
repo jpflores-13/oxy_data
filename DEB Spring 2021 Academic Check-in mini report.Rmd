@@ -1,7 +1,7 @@
 ---
 title: "DEB Spring 2021 Academic Check-in Mini Analysis"
 author: "JP Flores"
-date: "1/11/2021"
+date: "1/14/2021"
 output:
   html_document: default
   pdf_document: default
@@ -16,25 +16,27 @@ library(tidyverse)
 library(janitor)
 library(ggcharts)
 library(mdthemes)
-library(skimr)
 ```
 
 This [survey](https://docs.google.com/forms/d/1xsSR3A1MVAz2Ny47aP2rLM1xWB4bqMNMBovbOiUMHxA/edit) was sent out as an anonymous platform for students to share about their academic experiences from last semester, explain ongoing challenges, and help inform faculty about how they can be of better support in the Spring. 
 
 Students were aware that responses may be shared anonymously with faculty members.
 
-As of January 13, 2021, 303 students have filled out the survey.
+307 students have filled out the survey.
 
 ***
 
 ## Sample
 
-This sample is composed of the class of 2021 (28.7%), class of 2022 (20.8%%), class of 2023 (28.7%), and class of 2024 (23%).
+This sample is composed of the class of 2021 (28.7%), class of 2022 (20.8%%), class of 2023 (28.7%), and class of 2024 (25.1%).
 
 ```{r echo = FALSE, message=FALSE, results='hide'}
+
+#import the data
 deb_data <- read_csv("~/Desktop/oxy_data/DEB Spring 2021 Academic Check-In (Responses) - Form Responses 1.csv") %>% 
   clean_names() 
 
+# Sample of survey data by class year
 deb_class <- deb_data %>% 
   select(class_year)
 
@@ -57,7 +59,7 @@ deb_class %>%
     x = NULL,
     y = NULL,
     title = "Sample by class year",
-    subtitle = "n = 303",
+    subtitle = "n = 307",
     caption = "Source: DEB Spring 2021 Academic Check-In"
   ) +
   mdthemes::md_theme_classic(base_size = 14) +
@@ -73,19 +75,8 @@ deb_class %>%
 ## Demographics
 
 ```{r echo = FALSE, message=FALSE, results='hide'}
-deb_dems <- deb_data %>% 
-  transmute(class = class_year,
-            race_ethnicity = race_ethnicity,
-         low_income = do_you_identify_as_a_low_income_student,
-         lgbtqia = do_you_identify_as_lgbtqia,
-         PST = will_you_be_in_pacific_standard_time_pst_during_the_spring_2021_semester,
-         first_gen = are_you_a_first_generation_college_student)
-
-deb_dems$class <- as.character(deb_dems$class)
-
-deb_dems$race_ethnicity[107] <- "MENA/SWANA"
-
-deb_dems <- deb_dems %>% 
+#Tidying the dataset for analysis
+deb_data <- deb_data %>% 
   mutate(race_ethnicity = str_replace(race_ethnicity, "American Indian or Alaskan Native, Black or African American, White", "Multi")) %>%
   mutate(race_ethnicity = str_replace(race_ethnicity, "American Indian or Alaskan Native, Hispanic or Latinx", "Multi")) %>%
   mutate(race_ethnicity = str_replace(race_ethnicity, "Asian, Black or African American", "Multi")) %>%
@@ -107,47 +98,76 @@ deb_dems <- deb_dems %>%
   mutate(race_ethnicity = str_replace(race_ethnicity, "south asian", "Asian")) %>% 
   mutate(race_ethnicity = str_replace(race_ethnicity, "Coptic", "MENA/SWANA"))
 
+#Class year is a categorical value, original data had it as numerical
+deb_data$class_year <- as.character(deb_data$class_year)
 
+#spot checking
+deb_data$race_ethnicity[107] <- "MENA/SWANA"
+
+#rename variables
+deb_data <- deb_data %>% 
+  mutate(class = class_year,
+        race_ethnicity = race_ethnicity,
+         low_income = do_you_identify_as_a_low_income_student,
+         lgbtqia = do_you_identify_as_lgbtqia,
+         PST = will_you_be_in_pacific_standard_time_pst_during_the_spring_2021_semester,
+         first_gen = are_you_a_first_generation_college_student)
+
+#new demographics dataset
+deb_dems <- deb_data %>% 
+  mutate(class = class_year,
+        race_ethnicity = race_ethnicity,
+         low_income = do_you_identify_as_a_low_income_student,
+         lgbtqia = do_you_identify_as_lgbtqia,
+         PST = will_you_be_in_pacific_standard_time_pst_during_the_spring_2021_semester,
+         first_gen = are_you_a_first_generation_college_student)
+```
+
+# Race/Ethnicity Demographics
+```{r echo = FALSE, message=FALSE, results='hide'}
+# Data Viz Race/Ethnicity Demographics
   deb_dems %>% 
   ggplot(aes(x = class, fill = race_ethnicity)) +
   geom_bar() +
   labs(title = "Student Demographics: Race/Ethnicity",
-       subtitle = "n = 303",
+       subtitle = "n = 307",
        caption = "Source: DEB Spring 2021 Academic Check-In") +
     theme(plot.caption = element_text(hjust = 2.5),
-          axis.text.x = element_text(angle=45)
-  )
+          axis.text.x = element_text(angle=45))
 ```
 
-
+# Low-income & Race/Ethnicity Demographics
 ```{r echo = FALSE, message=FALSE, results='hide'}
   deb_dems %>% 
   ggplot(aes(x = class, fill = race_ethnicity)) +
   geom_bar() +
   facet_wrap( ~ low_income) +
   labs(title = "Student Demographics: Low-income",
-       subtitle = "n = 303",
+       subtitle = "n = 307",
        caption = "Source: DEB Spring 2021 Academic Check-In") +
     theme(plot.caption = element_text(hjust = 2),
-          axis.text.x = element_text(angle=45)
-  ) 
+          axis.text.x = element_text(angle=45)) 
 ```
 
 
+# LGBTQI+ & Race/Ethnicity Demographics
 
 ```{r echo = FALSE, message=FALSE, results='hide'}
+
 deb_dems %>% 
   ggplot(aes(x = class, fill = race_ethnicity)) +
   geom_bar() +
   facet_wrap( ~ lgbtqia) +
   labs(title = "Student Demographics: LGBTQIA+",
-       subtitle = "n = 120",
+       subtitle = "n = 307",
        caption = "Source: DEB Spring 2021 Academic Check-In") +
   theme(
   plot.caption = element_text(hjust = 2),
   axis.text.x = element_text(angle=45))
 
 ```
+
+# First-Gen status & Race/Ethnicity
 
 ```{r echo = FALSE, message=FALSE, results='hide'}
 deb_dems %>% 
@@ -155,122 +175,197 @@ deb_dems %>%
   geom_bar() +
   facet_wrap( ~ first_gen) +
   labs(title = "Student Demographics: First Generation",
-       subtitle = "n = 120",
+       subtitle = "n = 307",
        caption = "Source: DEB Spring 2021 Academic Check-In") +
   theme(
   plot.caption = element_text(hjust = 2),
   axis.text.x = element_text(angle=45))
 ```
 
+***
+
 ## Academic Challenges 
 
+# Breakdown of concern by class year
+
 ```{r echo = FALSE, message=FALSE, results='hide'}
-deb_concern <- deb_data %>% 
-  transmute(concern = how_concerned_are_you_about_your_academic_success_this_semester)
 
-deb_concern_chart <- tribble(
-  ~concern, ~pct,
-  "1", 4.1,
-  "2", 24.4,
-  "3", 24.4,
-  "4", 33.3,
-  "5", 13.8)
+concern_by_year <- deb_data %>% 
+  mutate(concern = how_concerned_are_you_about_your_academic_success_this_semester) %>% 
+  select(class_year, concern, race_ethnicity)
 
-deb_concern_chart %>%
-  mutate(label = sprintf("%1.1f%%", pct)) %>%
-  bar_chart(x = concern, y = pct, bar_color = "orange") +
-  geom_text(aes(label = label, hjust = 0), size = 5) +
-  scale_y_continuous(
-    limits = c(0, 50),
-    expand = expansion()
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "Concern regarding academic success this semester?",
-    subtitle = "scale from 1-5 (5 being extremely concerned)",
-    caption = "Source: DEB Spring 2021 Academic Check-In"
-  ) +
-  mdthemes::md_theme_classic(base_size = 14) +
-  theme(
-    axis.text.x = element_blank(),
-    axis.line.x = element_blank(),
-    axis.ticks.x = element_blank()
-  )
-
+concern_by_year %>% 
+  ggplot(aes(x = concern, fill = class_year)) +
+  geom_bar()
 
 ```
 
+# Breakdown of concern by race/ethnicity
+
 ```{r echo = FALSE, message=FALSE, results='hide'}
-deb_pace <- deb_data %>% 
-  transmute(pace = overall_how_did_you_feel_about_the_pace_of_your_classes_last_semester)
 
-deb_pace_chart <- tribble(
-  ~pace, ~pct,
-  "1", 0,
-  "2", 1.6,
-  "3", 48.8,
-  "4", 40.7,
-  "5", 8.9)
+concern_of_poc <- deb_data %>% 
+  mutate(concern = how_concerned_are_you_about_your_academic_success_this_semester) %>% 
+  select(class_year, concern, race_ethnicity)
 
-deb_pace_chart %>%
-  mutate(label = sprintf("%1.1f%%", pct)) %>%
-  bar_chart(x = pace, y = pct, bar_color = "orange") +
-  geom_text(aes(label = label, hjust = 0), size = 5) +
-  scale_y_continuous(
-    limits = c(0, 55),
-    expand = expansion()
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "Concern regarding pace this semester?",
-    subtitle = "scale from 1-5 (5 being extremely concerned)",
-    caption = "Source: DEB Spring 2021 Academic Check-In"
-  ) +
-  mdthemes::md_theme_classic(base_size = 14) +
-  theme(
-    axis.text.x = element_blank(),
-    axis.line.x = element_blank(),
-    axis.ticks.x = element_blank()
-  )
-
+concern_of_poc %>% 
+  ggplot(aes(x = concern, fill = race_ethnicity)) +
+  geom_bar()
 
 ```
 
+# Breakdown of concern by LGBTQI+ community
+
 ```{r echo = FALSE, message=FALSE, results='hide'}
-deb_workload <- deb_data %>% 
-  transmute(class = class_year,
-            race_ethnicity = race_ethnicity,
-         low_income = do_you_identify_as_a_low_income_student,
-         lgbtqia = do_you_identify_as_lgbtqia,
-         PST = will_you_be_in_pacific_standard_time_pst_during_the_spring_2021_semester,
-         first_gen = are_you_a_first_generation_college_student,
-         workload = overall_how_did_you_feel_about_workload_in_your_classes_last_semester)
 
-deb_workload$class <- as.character(deb_dems$class)
+concern_of_lgbt <- deb_data %>% 
+  mutate(concern = how_concerned_are_you_about_your_academic_success_this_semester) %>% 
+  select(class_year, concern, lgbtqia)
 
-deb_workload$race_ethnicity[107] <- "MENA/SWANA"
+concern_of_lgbt %>% 
+  ggplot(aes(x = concern, fill = lgbtqia)) +
+  geom_bar()
 
-deb_workload <- deb_workload %>% 
-  mutate(race_ethnicity = str_replace(race_ethnicity, "American Indian or Alaskan Native, Black or African American, White", "Multi")) %>%
-  mutate(race_ethnicity = str_replace(race_ethnicity, "American Indian or Alaskan Native, Hispanic or Latinx", "Multi")) %>%
-  mutate(race_ethnicity = str_replace(race_ethnicity, "Asian, Black or African American", "Multi")) %>%
-  mutate(race_ethnicity = str_replace(race_ethnicity, "Black or African American, White", "Multi")) %>%
-  mutate(race_ethnicity = str_replace(race_ethnicity, "Hispanic or Latinx, White", "Multi")) %>%
-  mutate(race_ethnicity = str_replace(race_ethnicity, "Native Hawaiian or Other Pacific Islander, White", "Multi")) %>% 
-  mutate(race_ethnicity = str_replace(race_ethnicity, "Asian, White", "Multi")) %>% 
-  mutate(race_ethnicity = str_replace(race_ethnicity, "Middle Eastern", "MENA/SWANA"))
+```
 
-deb_workload %>% 
-  ggplot(aes(x = class, fill = race_ethnicity)) +
+# Breakdown of concern by first generation college student status
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
+
+# Breakdown of concern by low-income college student status
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
+
+#Breakdown of workload by class year 
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+workload_by_year <- deb_data %>% 
+  mutate(workload = overall_how_did_you_feel_about_workload_in_your_classes_last_semester) %>% 
+  select(class_year, workload, race_ethnicity)
+
+workload_by_year <- workload_by_year %>% 
+  mutate(workload = str_replace(workload, "Too light—I completed all work early", "Too light")) %>% 
+  mutate(workload = str_replace(workload, "Manageable—I completed almost all work on time", "Manageable")) %>% 
+  mutate(workload = str_replace(workload, "Somewhat heavy—I sometimes struggled to complete work on time", "Somewhat heavy")) %>% 
+  mutate(workload = str_replace(workload, "Extremely heavy—I regularly struggled to complete work or fail to complete work on time", "Extremely heavy"))
+
+workload_by_year %>% 
+  ggplot(aes(x = workload, fill = class_year)) +
   geom_bar() +
-  facet_wrap( ~ workload) +
-  labs(title = "Academic Challenges: Workload",
-       subtitle = "n = 120",
-       caption = "Source: DEB Spring 2021 Academic Check-In") +
-    theme(plot.caption = element_text(hjust = 2),
-          axis.text.x = element_text(angle=45))
+  coord_flip()
 
 ```
 
+#Breakdown of workload by race/ethnicity 
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+workload_of_poc <- deb_data %>% 
+  mutate(workload = overall_how_did_you_feel_about_workload_in_your_classes_last_semester) %>% 
+  select(class_year, workload, race_ethnicity)
+
+workload_of_poc <- workload_of_poc %>% 
+  mutate(workload = str_replace(workload, "Too light—I completed all work early", "Too light")) %>% 
+  mutate(workload = str_replace(workload, "Manageable—I completed almost all work on time", "Manageable")) %>% 
+  mutate(workload = str_replace(workload, "Somewhat heavy—I sometimes struggled to complete work on time", "Somewhat heavy")) %>% 
+  mutate(workload = str_replace(workload, "Extremely heavy—I regularly struggled to complete work or fail to complete work on time", "Extremely heavy"))
+
+workload_of_poc %>% 
+  ggplot(aes(x = workload, fill = race_ethnicity)) +
+  geom_bar() +
+  coord_flip()
+
+```
+
+#Breakdown of workload by LGBTQIA 
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+workload_of_lgbt <- deb_data %>% 
+  mutate(workload = overall_how_did_you_feel_about_workload_in_your_classes_last_semester) %>% 
+  select(class_year, workload, lgbtqia)
+
+workload_of_lgbt <- workload_of_lgbt %>% 
+  mutate(workload = str_replace(workload, "Too light—I completed all work early", "Too light")) %>% 
+  mutate(workload = str_replace(workload, "Manageable—I completed almost all work on time", "Manageable")) %>% 
+  mutate(workload = str_replace(workload, "Somewhat heavy—I sometimes struggled to complete work on time", "Somewhat heavy")) %>% 
+  mutate(workload = str_replace(workload, "Extremely heavy—I regularly struggled to complete work or fail to complete work on time", "Extremely heavy"))
+
+workload_of_lgbt %>% 
+  ggplot(aes(x = workload, fill = lgbtqia)) +
+  geom_bar() +
+  coord_flip()
+
+```
+
+# Breakdown of workload by first generation college student status
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
+
+# Breakdown of workload by low-income college student status
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
+
+# Breakdown of pace of semester by class year
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+pace_by_year <- deb_data %>% 
+  mutate(pace = overall_how_did_you_feel_about_the_pace_of_your_classes_last_semester) %>% 
+  select(class_year, pace, race_ethnicity)
+
+pace_by_year %>% 
+  ggplot(aes(x = pace, fill = class_year)) +
+  geom_bar() 
+
+```
+
+# Breakdown of pace of semester by race/ethnicity
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+pace_of_poc <- deb_data %>% 
+  mutate(pace = overall_how_did_you_feel_about_the_pace_of_your_classes_last_semester) %>% 
+  select(class_year, pace, race_ethnicity)
+
+pace_of_poc %>% 
+  ggplot(aes(x = pace, fill = race_ethnicity)) +
+  geom_bar() 
+
+```
+
+# Breakdown of pace of semester by LGBTQIA
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+pace_of_lgbt <- deb_data %>% 
+  mutate(pace = overall_how_did_you_feel_about_the_pace_of_your_classes_last_semester) %>% 
+  select(class_year, pace, lgbtqia)
+
+pace_of_lgbt %>% 
+  ggplot(aes(x = pace, fill = lgbtqia)) +
+  geom_bar() 
+
+```
+
+# Breakdown of pace by first generation college student status
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
+
+# Breakdown of pace by low-income college student status
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
+
+***
+
+## Future Support
