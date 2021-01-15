@@ -32,7 +32,7 @@ As of January 13, 2021, 303 students have filled out the survey.
 This sample is composed of the class of 2021 (28.7%), class of 2022 (20.8%%), class of 2023 (28.7%), and class of 2024 (23%).
 
 ```{r echo = FALSE, message=FALSE, results='hide'}
-deb_data <- read_csv("~/Desktop/deb_data/DEB Spring 2021 Academic Check-In (Responses) - Form Responses 1.csv") %>% 
+deb_data <- read_csv("~/Desktop/oxy_data/DEB Spring 2021 Academic Check-In (Responses) - Form Responses 1.csv") %>% 
   clean_names() 
 
 deb_class <- deb_data %>% 
