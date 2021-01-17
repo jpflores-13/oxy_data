@@ -3,6 +3,7 @@ title: "DEB Spring 2021 Academic Check-in Mini Analysis"
 author: "JP Flores"
 date: "1/14/2021"
 output:
+  word_document: default
   html_document: default
   pdf_document: default
 ---
@@ -33,7 +34,7 @@ This sample is composed of the class of 2021 (28.7%), class of 2022 (20.8%%), cl
 ```{r echo = FALSE, message=FALSE, results='hide'}
 
 #import the data
-deb_data <- read_csv("~/Desktop/oxy_data/DEB Spring 2021 Academic Check-In (Responses) - Form Responses 1.csv") %>% 
+deb_data <- read_csv("~/Desktop/oxy_data/deb_sp21/DEB Spring 2021 Academic Check-In (Responses) - Form Responses 1.csv") %>% 
   clean_names() 
 
 # Sample of survey data by class year
@@ -76,6 +77,8 @@ deb_class %>%
 
 ```{r echo = FALSE, message=FALSE, results='hide'}
 #Tidying the dataset for analysis
+
+#tidying the race/ethnicity
 deb_data <- deb_data %>% 
   mutate(race_ethnicity = str_replace(race_ethnicity, "American Indian or Alaskan Native, Black or African American, White", "Multi")) %>%
   mutate(race_ethnicity = str_replace(race_ethnicity, "American Indian or Alaskan Native, Hispanic or Latinx", "Multi")) %>%
@@ -96,7 +99,9 @@ deb_data <- deb_data %>%
   mutate(race_ethnicity = str_replace(race_ethnicity, "North African", "Black or African American")) %>%
   mutate(race_ethnicity = str_replace(race_ethnicity, "International/ Latin American", "Hispanic or Latinx")) %>% 
   mutate(race_ethnicity = str_replace(race_ethnicity, "south asian", "Asian")) %>% 
-  mutate(race_ethnicity = str_replace(race_ethnicity, "Coptic", "MENA/SWANA"))
+  mutate(race_ethnicity = str_replace(race_ethnicity, "Coptic", "MENA/SWANA")) %>% 
+  mutate(race_ethnicity = str_replace(race_ethnicity, "Native Hawaiian or Other Pacific Islander",
+                                      "Native Hawaiian or Other Pacific Islander"))
 
 #Class year is a categorical value, original data had it as numerical
 deb_data$class_year <- as.character(deb_data$class_year)
@@ -113,7 +118,7 @@ deb_data <- deb_data %>%
          PST = will_you_be_in_pacific_standard_time_pst_during_the_spring_2021_semester,
          first_gen = are_you_a_first_generation_college_student)
 
-#new demographics dataset
+#new race/ethnicity dataset
 deb_dems <- deb_data %>% 
   mutate(class = class_year,
         race_ethnicity = race_ethnicity,
@@ -121,6 +126,11 @@ deb_dems <- deb_data %>%
          lgbtqia = do_you_identify_as_lgbtqia,
          PST = will_you_be_in_pacific_standard_time_pst_during_the_spring_2021_semester,
          first_gen = are_you_a_first_generation_college_student)
+
+
+#tidying the LGBTQIA community data
+
+
 ```
 
 # Race/Ethnicity Demographics
@@ -158,11 +168,11 @@ deb_dems %>%
   ggplot(aes(x = class, fill = race_ethnicity)) +
   geom_bar() +
   facet_wrap( ~ lgbtqia) +
-  labs(title = "Student Demographics: LGBTQIA+",
+  labs(title = "Student Demographics: LGBTQI+",
        subtitle = "n = 307",
        caption = "Source: DEB Spring 2021 Academic Check-In") +
   theme(
-  plot.caption = element_text(hjust = 2),
+  plot.caption = element_text(hjust = 2.9),
   axis.text.x = element_text(angle=45))
 
 ```
@@ -196,8 +206,12 @@ concern_by_year <- deb_data %>%
 
 concern_by_year %>% 
   ggplot(aes(x = concern, fill = class_year)) +
-  geom_bar()
-
+  geom_bar() +
+  labs(y = "",
+       x = "Level of Concern",
+       caption = "Source: DEB Spring 2021 Academic Check-In") +
+  theme(
+  plot.caption = element_text(hjust = 1.3))
 ```
 
 # Breakdown of concern by race/ethnicity
@@ -210,7 +224,13 @@ concern_of_poc <- deb_data %>%
 
 concern_of_poc %>% 
   ggplot(aes(x = concern, fill = race_ethnicity)) +
-  geom_bar()
+  geom_bar(width = 0.9) +
+    labs(y = "",
+       x = "Level of Concern",
+       caption = "Source: DEB Spring 2021 Academic Check-In",
+       fill = "Race/Ethnicity") +
+  theme(
+  plot.caption = element_text(hjust = 5))
 
 ```
 
@@ -220,7 +240,7 @@ concern_of_poc %>%
 
 concern_of_lgbt <- deb_data %>% 
   mutate(concern = how_concerned_are_you_about_your_academic_success_this_semester) %>% 
-  select(class_year, concern, lgbtqia)
+  select(class_year, concern, lgbtqia) 
 
 concern_of_lgbt %>% 
   ggplot(aes(x = concern, fill = lgbtqia)) +
@@ -231,16 +251,40 @@ concern_of_lgbt %>%
 # Breakdown of concern by first generation college student status
 
 ```{r echo = FALSE, message=FALSE, results='hide'}
+concern_of_firstgen <- deb_data %>% 
+  mutate(concern = how_concerned_are_you_about_your_academic_success_this_semester) %>% 
+  select(class_year, concern, first_gen)
 
+concern_of_firstgen %>% 
+  ggplot(aes(x = concern, fill = first_gen)) +
+  geom_bar() +
+  labs(y = "",
+       x = "Level of Concern",
+       caption = "Source: DEB Spring 2021 Academic Check-In",
+       fill = "First-Gen status?") +
+  theme(
+  plot.caption = element_text(hjust = 1.7))
 ```
 
 # Breakdown of concern by low-income college student status
 
 ```{r echo = FALSE, message=FALSE, results='hide'}
+concern_of_lowincome <- deb_data %>% 
+  mutate(concern = how_concerned_are_you_about_your_academic_success_this_semester) %>% 
+  select(class_year, concern, low_income)
 
+concern_of_lowincome %>% 
+  ggplot(aes(x = concern, fill = low_income)) +
+  geom_bar() +
+  labs(y = "",
+       x = "Level of Concern",
+       caption = "Source: DEB Spring 2021 Academic Check-In",
+       fill = "Low-income status?") +
+  theme(
+  plot.caption = element_text(hjust = 1.9))
 ```
 
-#Breakdown of workload by class year 
+# Breakdown of workload by class year 
 
 ```{r echo = FALSE, message=FALSE, results='hide'}
 
@@ -261,7 +305,7 @@ workload_by_year %>%
 
 ```
 
-#Breakdown of workload by race/ethnicity 
+# Breakdown of workload by race/ethnicity 
 
 ```{r echo = FALSE, message=FALSE, results='hide'}
 
@@ -282,7 +326,7 @@ workload_of_poc %>%
 
 ```
 
-#Breakdown of workload by LGBTQIA 
+# Breakdown of workload by LGBTQIA 
 
 ```{r echo = FALSE, message=FALSE, results='hide'}
 
@@ -306,13 +350,39 @@ workload_of_lgbt %>%
 # Breakdown of workload by first generation college student status
 
 ```{r echo = FALSE, message=FALSE, results='hide'}
+workload_of_firstgen <- deb_data %>% 
+  mutate(workload = overall_how_did_you_feel_about_workload_in_your_classes_last_semester) %>% 
+  select(class_year, workload, first_gen)
 
+workload_of_firstgen <- workload_of_firstgen %>% 
+  mutate(workload = str_replace(workload, "Too light—I completed all work early", "Too light")) %>% 
+  mutate(workload = str_replace(workload, "Manageable—I completed almost all work on time", "Manageable")) %>% 
+  mutate(workload = str_replace(workload, "Somewhat heavy—I sometimes struggled to complete work on time", "Somewhat heavy")) %>% 
+  mutate(workload = str_replace(workload, "Extremely heavy—I regularly struggled to complete work or fail to complete work on time", "Extremely heavy"))
+
+workload_of_firstgen %>% 
+  ggplot(aes(x = workload, fill = first_gen)) +
+  geom_bar() +
+  coord_flip()
 ```
 
 # Breakdown of workload by low-income college student status
 
 ```{r echo = FALSE, message=FALSE, results='hide'}
+workload_of_lowincome <- deb_data %>% 
+  mutate(workload = overall_how_did_you_feel_about_workload_in_your_classes_last_semester) %>% 
+  select(class_year, workload, low_income)
 
+workload_of_lowincome <- workload_of_lowincome %>% 
+  mutate(workload = str_replace(workload, "Too light—I completed all work early", "Too light")) %>% 
+  mutate(workload = str_replace(workload, "Manageable—I completed almost all work on time", "Manageable")) %>% 
+  mutate(workload = str_replace(workload, "Somewhat heavy—I sometimes struggled to complete work on time", "Somewhat heavy")) %>% 
+  mutate(workload = str_replace(workload, "Extremely heavy—I regularly struggled to complete work or fail to complete work on time", "Extremely heavy"))
+
+workload_of_lowincome %>% 
+  ggplot(aes(x = workload, fill = low_income)) +
+  geom_bar() +
+  coord_flip()
 ```
 
 # Breakdown of pace of semester by class year
@@ -357,15 +427,104 @@ pace_of_lgbt %>%
 # Breakdown of pace by first generation college student status
 
 ```{r echo = FALSE, message=FALSE, results='hide'}
+pace_of_firstgen <- deb_data %>% 
+  mutate(pace = overall_how_did_you_feel_about_the_pace_of_your_classes_last_semester) %>% 
+  select(class_year, pace, first_gen)
+
+pace_of_firstgen %>% 
+  ggplot(aes(x = pace, fill = first_gen)) +
+  geom_bar() 
 
 ```
 
 # Breakdown of pace by low-income college student status
 
 ```{r echo = FALSE, message=FALSE, results='hide'}
+pace_of_lowincome <- deb_data %>% 
+  mutate(pace = overall_how_did_you_feel_about_the_pace_of_your_classes_last_semester) %>% 
+  select(class_year, pace, low_income)
+
+pace_of_lowincome %>% 
+  ggplot(aes(x = pace, fill = low_income)) +
+  geom_bar() 
+```
+
+```{r}```{r echo = FALSE, message=FALSE, results='hide'}
+#Tidying the dataset for academic challenge analyses
 
 ```
+
+# Academic challenges most anticipated this semester by class year
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
+ 
+# Academic challenges most anticipated this semester by race/ ethnicity
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
+
+
+# Academic challenges most anticipated this semester by LGBTQI+
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
+
+
+# Academic challenges most anticipated this semester by first-generation college student status
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
+
+
+# Academic challenges most anticipated this semester by low-income college student status 
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
+
+
 
 ***
 
 ## Future Support
+
+# What would be the most helpful to students this semester? 
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
+
+# What would be the most helpful to students this semester by class year? 
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
+
+# What would be the most helpful to students of color this semester? 
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
+
+# What would be the most helpful to students of the LGBTQI+ community this semester? 
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
+
+# What would be the most helpful to first-generation students this semester? 
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
+
+# What would be the most helpful to low-income students this semester? 
+
+```{r echo = FALSE, message=FALSE, results='hide'}
+
+```
