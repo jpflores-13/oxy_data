@@ -21,7 +21,7 @@ Import the data
 ```{r}
 bestem_data <-read_csv("/Users/jpflores/Desktop/Desktop - JP’s MacBook Pro/bestem/data through 5_30.xlsx - anonymizing the data.csv")
 
-View(bestem_data)
+# View(bestem_data)
 
 bestem_data <- bestem_data %>% 
   select(- `Row # from Qualtrics`,
@@ -39,11 +39,186 @@ bestem_data <- bestem_data %>%
          )
 
 bestem_data <- bestem_data[-c(1:2) , ]
+
+bestem_data %>%
+  count(major)
+
 ```
 
 Export for Sherman and Levitan for further direction on how to organize the data 
 ```{r}
-# write_csv(bestem_data, "bestem_data.csv")
+write_csv(bestem_data, "bestem_data_06222021.csv")
 ```
 
+
+Add column (Were they a declared STEM major? ex. Biochemistry, Biology, Chemistry, Computer Science, Cognitive Science, Geology, Kinesiology, Mathematics, Physics, or Psychology)
+```{r}
+declared_stem <- bestem_data %>% 
+  filter(any_STEM == "Yes") %>% 
+  filter(know_major == "Yes") %>% 
+  filter(major %in% c("Biology", "Biochemistry", "Chemistry", "Computer Science", "Cognitive   Science","Geology","Kinesiology", "Mathematics", "Physics", "Psychology", "Computer Science,Economics", "Cognitive Science,Philosophy", "Cognitive Science,Group Language", "Biology,Kinesiology,Psychology", "Computer Science,Economics", "Art & Art History,Biology",
+"Biochemistry,Biology", "Biochemistry,Computer Science", "Biochemistry,Theater",
+"Biology,Theater", "Biology,Cognitive Science", "Chemistry,Chinese Studies", "Cognitive Science,Computer Science", "Cognitive Science,Economics", "Cognitive Science,Theater", "Comparative Studies in Literature and Culture,Computer Science", "Comparative Studies in Literature and Culture,Mathematics", "Computer Science,Mathematics", "Computer Science,Media Arts & Culture",
+"Computer Science,Physics", "Computer Science,Theater", "Economics,Mathematics", "Mathematics,Physics", "Psychology,Spanish Studies"))
+
+         
+bestem_data <- bestem_data %>%
+  mutate(stem_major = case_when(
+    major == "Biology" ~ "yes", 
+    major == "Biochemistry" ~ "yes",
+    major == "Chemistry" ~ "yes",
+    major == "Computer Science" ~ "yes",
+    major == "Cognitive Science" ~ "yes",
+    major == "Geology" ~ "yes",
+    major == "Kinesiology" ~ "yes",
+    major == "Mathematics" ~ "yes",
+    major == "Physics" ~ "yes",
+    major == "Psychology" ~ "yes",
+    major == "Art & Art History,Biology" ~ "yes",
+    major == "Biochemistry,Biology" ~ "yes",
+    major == "Biochemistry,Comparative Studies in Literature and Culture" ~ "yes",
+    major == "Biochemistry,Computer Science" ~ "yes",
+    major == "Biochemistry,Theater" ~ "yes",
+    major == "Biology,Kinesiology,Psychology" ~ "yes",
+    major == "Biology,Theater" ~ "yes",
+    major == "Biology,Cognitive Science" ~ "yes",
+    major == "Computer Science,Economics" ~ "yes",
+    major == "Cognitive Science,Philosophy" ~ "yes",
+    major == "Cognitive Science,Group Language" ~ "yes",
+    major == "Chemistry,Chinese Studies" ~ "yes",
+    major == "Cognitive Science,Computer Science" ~ "yes",
+    major == "Cognitive Science,Economics" ~ "yes",
+    major == "Cognitive Science,Theater" ~ "yes",
+    major == "Comparative Studies in Literature and Culture,Computer Science" ~ "yes",
+    major == "Comparative Studies in Literature and Culture,Mathematics" ~ "yes",
+    major == "Computer Science,Mathematics" ~ "yes",
+    major == "Computer Science,Media Arts & Culture" ~ "yes",
+    major == "Computer Science,Physics" ~ "yes",
+    major == "Computer Science,Theater" ~ "yes",
+    major == "Economics,Mathematics" ~ "yes",
+    major == "Mathematics,Physics" ~ "yes",
+    major == "Psychology,Spanish Studies" ~ "yes",
+    TRUE ~ "no"))
+    # TRUE ~ NA_character_))
+```
+
+Add column (Were they an intended STEM major?)
+```{r}
+bestem_data <- bestem_data %>%
+  mutate(intention_in_stem = case_when(
+  know_major == "Not sure of the exact major, but something in STEM" ~ "yes",
+  know_major == "Not sure of the major, definitely not STEM" ~ "none",
+  know_major == "Not sure of the major, might be in STEM" ~ "undecided",
+  know_major == "Yes" ~ "declared",
+  know_major == "No, but I've already figured out my intended major(s)" ~ "figured it out",
+  TRUE ~ NA_character_))
+```
+
+<!-- Add column (Undecided majors) -->
+<!-- ```{r} -->
+
+<!-- ``` -->
+
+<!-- Add column (Non-STEM majors) -->
+<!-- ```{r} -->
+<!-- ``` -->
+
+Add column (double STEM major)
+```{r}
+bestem_data <- bestem_data %>% 
+  mutate(double_stem = case_when(
+    major == "Biochemistry,Biology" ~ "yes",
+    major == "Biochemistry,Computer Science" ~ "yes",
+    major == "Biology,Kinesiology,Psychology" ~ "yes",
+    major == "Biology,Cognitive Science" ~ "yes",
+    major == "Cognitive Science,Computer Science" ~ "yes",
+    major == "Computer Science,Mathematics" ~ "yes",
+    major == "Computer Science,Physics" ~ "yes",
+    major == "Mathematics,Physics" ~ "yes",
+    TRUE ~ "no"))
+```
+
+Add column (double non-STEM major)
+```{r}
+bestem_data <- bestem_data %>% 
+  mutate(double_non_stem = case_when(
+    major == "Art & Art History,Biology" ~ "yes",
+    major == "Biochemistry,Comparative Studies in Literature and Culture" ~ "yes",
+    major == "Biochemistry,Theater" ~ "yes",
+    major == "Biology,Theater" ~ "yes",
+    major == "Computer Science,Economics" ~ "yes",
+    major == "Cognitive Science,Philosophy" ~ "yes",
+    major == "Cognitive Science,Group Language" ~ "yes",
+    major == "Chemistry,Chinese Studies" ~ "yes",
+    major == "Cognitive Science,Economics" ~ "yes",
+    major == "Cognitive Science,Theater" ~ "yes",
+    major == "Comparative Studies in Literature and Culture,Computer Science" ~ "yes",
+    major == "Comparative Studies in Literature and Culture,Mathematics" ~ "yes",
+    major == "Computer Science,Media Arts & Culture" ~ "yes",
+    major == "Computer Science,Theater" ~ "yes",
+    major == "Economics,Mathematics" ~ "yes",
+    major == "Psychology,Spanish Studies" ~ "yes",
+    TRUE ~ "no"))
+```
+
+<!-- Add column (double major: STEM and non-STEM) -->
+<!-- ```{r} -->
+
+<!-- ``` -->
+
+<!-- Maybe add column (STEM-affiliated or nah?) -->
+<!-- ```{r} -->
+
+<!-- ``` -->
+
+"Belongingness in STEM" metric (Average the responses to all questions by individual by first major)
+```{r}
+
+```
+
+"Belongingness in STEM" metric (Average the responses to all questions by individual by second major)
+```{r}
+
+```
+
+"Belongingness in STEM" metric (Average the responses to all questions by individual by third major)
+```{r}
+
+```
+
+"Belongingness in STEM" metric (Average the responses to all questions by each major)
+```{r}
+
+```
+
+Research Experience Metric (0 = none, 1 = any exp., 1 exp., 2 = two experiences, 3 = 3+ experiences picked) + "Belongingness" Score
+```{r}
+
+```
+
+
+Peer Learning/ Support (Peer OH's, ) (0 = NA's, no participation, 1 = visited peer office hours rarely or very occasionally, 2 = students indicated taking full advantage of peer office hours)
+```{r}
+
+```
+
+AMP/SSAP (0 = NA's, no participation, 1 = visited peer office hours rarely or very occasionally, 2 = students indicated taking full advantage of peer office hours)
+```{r}
+
+```
+
+STEM-related clubs (0 = students indicated no participation, 1 = students indicated that they were a member of a STEM-related club, 2 = students indicated that they held a leadership position)
+```{r}
+
+```
+
+Visiting peer advisor/ TA office hours (NA = didn't answer it, 0 = never went, 1 = Never,2 = Less than once a semseter, 3 = Once or twice a semester, 4 = ) + separate than a "Belongingness" Score (New variable called peer learning (study groups, AMP, SSAP, and peer OH))
+```{r}
+
+```
+
+STEM-related clubs (0 = no clubs, 1 = one club, 2 = multiple clubs)
+```{r}
+
+```
 
