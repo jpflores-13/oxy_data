@@ -2,7 +2,9 @@
 title: "Belonging in STEM survey tidysesh"
 author: "JP Flores"
 date: "5/3/2021"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -40,14 +42,11 @@ bestem_data <- bestem_data %>%
 
 bestem_data <- bestem_data[-c(1:2) , ]
 
-bestem_data %>%
-  count(major)
+bestem_data <- bestem_data %>% 
+  mutate(comfort_peers_classes_1 = comfort_peers_classe_1)
 
-```
-
-Export for Sherman and Levitan for further direction on how to organize the data 
-```{r}
-write_csv(bestem_data, "bestem_data_06222021.csv")
+# bestem_data %>%
+#   count(major)
 ```
 
 
@@ -110,18 +109,9 @@ bestem_data <- bestem_data %>%
   know_major == "Not sure of the major, definitely not STEM" ~ "none",
   know_major == "Not sure of the major, might be in STEM" ~ "undecided",
   know_major == "Yes" ~ "declared",
-  know_major == "No, but I've already figured out my intended major(s)" ~ "figured it out",
+  know_major == "No, but I've already figured out my intended major(s)" ~ "No, but figured out major",
   TRUE ~ NA_character_))
 ```
-
-<!-- Add column (Undecided majors) -->
-<!-- ```{r} -->
-
-<!-- ``` -->
-
-<!-- Add column (Non-STEM majors) -->
-<!-- ```{r} -->
-<!-- ``` -->
 
 Add column (double STEM major)
 ```{r}
@@ -161,59 +151,584 @@ bestem_data <- bestem_data %>%
     TRUE ~ "no"))
 ```
 
-<!-- Add column (double major: STEM and non-STEM) -->
-<!-- ```{r} -->
-
-<!-- ``` -->
-
-<!-- Maybe add column (STEM-affiliated or nah?) -->
-<!-- ```{r} -->
-
-<!-- ``` -->
-
 "Belongingness in STEM" metric (Average the responses to all questions by individual by first major)
 ```{r}
 
-```
+bestem_data$`1_fit major_1` <- as.numeric(bestem_data$`1_fit major_1`)
+bestem_data$`1_welcome major_1` <- as.numeric(bestem_data$`1_welcome major_1`)
+bestem_data$`1_comfort major_1` <- as.numeric(bestem_data$`1_comfort major_1`)
+bestem_data$`1_thrilled major_1` <- as.numeric(bestem_data$`1_thrilled major_1`)
+bestem_data$`1_like peers_1` <-  as.numeric(bestem_data$`1_like peers_1`)
+bestem_data$`1_comfort peers_1` <- as.numeric(bestem_data$`1_comfort peers_1`)
+bestem_data$`1_like profs_1` <-  as.numeric(bestem_data$`1_like profs_1`)
+bestem_data$`1_comfort profs_1` <-  as.numeric(bestem_data$`1_comfort profs_1`)
 
-"Belongingness in STEM" metric (Average the responses to all questions by individual by second major)
-```{r}
 
-```
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_bio = mean(c_across(4:11)))
 
-"Belongingness in STEM" metric (Average the responses to all questions by individual by third major)
-```{r}
+bestem_data$`2_fit major_1` <- as.numeric(bestem_data$`2_fit major_1`)
+bestem_data$`2_welcome major_1` <- as.numeric(bestem_data$`2_welcome major_1`)
+bestem_data$`2_comfort major_1` <- as.numeric(bestem_data$`2_comfort major_1`)
+bestem_data$`2_thrilled major_1` <- as.numeric(bestem_data$`2_thrilled major_1`)
+bestem_data$`2_like peers_1` <-  as.numeric(bestem_data$`2_like peers_1`)
+bestem_data$`2_comfort peers_1` <- as.numeric(bestem_data$`2_comfort peers_1`)
+bestem_data$`2_like profs_1` <-  as.numeric(bestem_data$`2_like profs_1`)
+bestem_data$`2_comfort profs_1` <-  as.numeric(bestem_data$`2_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_biochem = mean(c_across(13:20)))
+
+bestem_data$`3_fit major_1` <- as.numeric(bestem_data$`3_fit major_1`)
+bestem_data$`3_welcome major_1` <- as.numeric(bestem_data$`3_welcome major_1`)
+bestem_data$`3_comfort major_1` <- as.numeric(bestem_data$`3_comfort major_1`)
+bestem_data$`3_thrilled major_1` <- as.numeric(bestem_data$`3_thrilled major_1`)
+bestem_data$`3_like peers_1` <-  as.numeric(bestem_data$`3_like peers_1`)
+bestem_data$`3_comfort peers_1` <- as.numeric(bestem_data$`3_comfort peers_1`)
+bestem_data$`3_like profs_1` <-  as.numeric(bestem_data$`3_like profs_1`)
+bestem_data$`3_comfort profs_1` <-  as.numeric(bestem_data$`3_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_chem = mean(c_across(22:29)))
+
+bestem_data$`4_fit major_1` <- as.numeric(bestem_data$`4_fit major_1`)
+bestem_data$`4_welcome major_1` <- as.numeric(bestem_data$`4_welcome major_1`)
+bestem_data$`4_comfort major_1` <- as.numeric(bestem_data$`4_comfort major_1`)
+bestem_data$`4_thrilled major_1` <- as.numeric(bestem_data$`4_thrilled major_1`)
+bestem_data$`4_like peers_1` <-  as.numeric(bestem_data$`4_like peers_1`)
+bestem_data$`4_comfort peers_1` <- as.numeric(bestem_data$`4_comfort peers_1`)
+bestem_data$`4_like profs_1` <-  as.numeric(bestem_data$`4_like profs_1`)
+bestem_data$`4_comfort profs_1` <-  as.numeric(bestem_data$`4_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_cogsci = mean(c_across(31:38)))
+
+bestem_data$`5_fit major_1` <- as.numeric(bestem_data$`5_fit major_1`)
+bestem_data$`5_welcome major_1` <- as.numeric(bestem_data$`5_welcome major_1`)
+bestem_data$`5_comfort major_1` <- as.numeric(bestem_data$`5_comfort major_1`)
+bestem_data$`5_thrilled major_1` <- as.numeric(bestem_data$`5_thrilled major_1`)
+bestem_data$`5_like peers_1` <-  as.numeric(bestem_data$`5_like peers_1`)
+bestem_data$`5_comfort peers_1` <- as.numeric(bestem_data$`5_comfort peers_1`)
+bestem_data$`5_like profs_1` <-  as.numeric(bestem_data$`5_like profs_1`)
+bestem_data$`5_comfort profs_1` <-  as.numeric(bestem_data$`5_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_compsci = mean(c_across(40:47)))
+
+bestem_data$`6_fit major_1` <- as.numeric(bestem_data$`6_fit major_1`)
+bestem_data$`6_welcome major_1` <- as.numeric(bestem_data$`6_welcome major_1`)
+bestem_data$`6_comfort major_1` <- as.numeric(bestem_data$`6_comfort major_1`)
+bestem_data$`6_thrilled major_1` <- as.numeric(bestem_data$`6_thrilled major_1`)
+bestem_data$`6_like peers_1` <-  as.numeric(bestem_data$`6_like peers_1`)
+bestem_data$`6_comfort peers_1` <- as.numeric(bestem_data$`6_comfort peers_1`)
+bestem_data$`6_like profs_1` <-  as.numeric(bestem_data$`6_like profs_1`)
+bestem_data$`6_comfort profs_1` <-  as.numeric(bestem_data$`6_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_geo = mean(c_across(49:56)))
+
+bestem_data$`7_fit major_1` <- as.numeric(bestem_data$`7_fit major_1`)
+bestem_data$`7_welcome major_1` <- as.numeric(bestem_data$`7_welcome major_1`)
+bestem_data$`7_comfort major_1` <- as.numeric(bestem_data$`7_comfort major_1`)
+bestem_data$`7_thrilled major_1` <- as.numeric(bestem_data$`7_thrilled major_1`)
+bestem_data$`7_like peers_1` <-  as.numeric(bestem_data$`7_like peers_1`)
+bestem_data$`7_comfort peers_1` <- as.numeric(bestem_data$`7_comfort peers_1`)
+bestem_data$`7_like profs_1` <-  as.numeric(bestem_data$`7_like profs_1`)
+bestem_data$`7_comfort profs_1` <-  as.numeric(bestem_data$`7_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_kines = mean(c_across(58:65)))
+
+bestem_data$`8_fit major_1` <- as.numeric(bestem_data$`8_fit major_1`)
+bestem_data$`8_welcome major_1` <- as.numeric(bestem_data$`8_welcome major_1`)
+bestem_data$`8_comfort major_1` <- as.numeric(bestem_data$`8_comfort major_1`)
+bestem_data$`8_thrilled major_1` <- as.numeric(bestem_data$`8_thrilled major_1`)
+bestem_data$`8_like peers_1` <-  as.numeric(bestem_data$`8_like peers_1`)
+bestem_data$`8_comfort peers_1` <- as.numeric(bestem_data$`8_comfort peers_1`)
+bestem_data$`8_like profs_1` <-  as.numeric(bestem_data$`8_like profs_1`)
+bestem_data$`8_comfort profs_1` <-  as.numeric(bestem_data$`8_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_math = mean(c_across(67:74)))
+
+bestem_data$`9_fit major_1` <- as.numeric(bestem_data$`9_fit major_1`)
+bestem_data$`9_welcome major_1` <- as.numeric(bestem_data$`9_welcome major_1`)
+bestem_data$`9_comfort major_1` <- as.numeric(bestem_data$`9_comfort major_1`)
+bestem_data$`9_thrilled major_1` <- as.numeric(bestem_data$`9_thrilled major_1`)
+bestem_data$`9_like peers_1` <-  as.numeric(bestem_data$`9_like peers_1`)
+bestem_data$`9_comfort peers_1` <- as.numeric(bestem_data$`9_comfort peers_1`)
+bestem_data$`9_like profs_1` <-  as.numeric(bestem_data$`9_like profs_1`)
+bestem_data$`9_comfort profs_1` <-  as.numeric(bestem_data$`9_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_physics = mean(c_across(76:83)))
+
+bestem_data$`10_fit major_1` <- as.numeric(bestem_data$`10_fit major_1`)
+bestem_data$`10_welcome major_1` <- as.numeric(bestem_data$`10_welcome major_1`)
+bestem_data$`10_comfort major_1` <- as.numeric(bestem_data$`10_comfort major_1`)
+bestem_data$`10_thrilled major_1` <- as.numeric(bestem_data$`10_thrilled major_1`)
+bestem_data$`10_like peers_1` <-  as.numeric(bestem_data$`10_like peers_1`)
+bestem_data$`10_comfort peers_1` <- as.numeric(bestem_data$`10_comfort peers_1`)
+bestem_data$`10_like profs_1` <-  as.numeric(bestem_data$`10_like profs_1`)
+bestem_data$`10_comfort profs_1` <-  as.numeric(bestem_data$`10_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_psych = mean(c_across(85:92)))
+
+# No data for this section
+# bestem_data$`11_fit major_1` <- as.numeric(bestem_data$`11_fit major_1`)
+# bestem_data$`11_welcome major_1` <- as.numeric(bestem_data$`11_welcome major_1`)
+# bestem_data$`11_comfort major_1` <- as.numeric(bestem_data$`11_comfort major_1`)
+# bestem_data$`11_thrilled major_1` <- as.numeric(bestem_data$`11_thrilled major_1`)
+# bestem_data$`11_like peers_1` <-  as.numeric(bestem_data$`11_like peers_1`)
+# bestem_data$`11_comfort peers_1` <- as.numeric(bestem_data$`11_comfort peers_1`)
+# bestem_data$`11_like profs_1` <-  as.numeric(bestem_data$`11_like profs_1`)
+# bestem_data$`11_comfort profs_1` <-  as.numeric(bestem_data$`11_comfort profs_1`)
+# 
+# bestem_data <- bestem_data %>% 
+#   rowwise() %>%
+#   mutate(belongingness_ = mean(c_across(94:101)))
+
+bestem_data$`12_fit major_1` <- as.numeric(bestem_data$`12_fit major_1`)
+bestem_data$`12_welcome major_1` <- as.numeric(bestem_data$`12_welcome major_1`)
+bestem_data$`12_comfort major_1` <- as.numeric(bestem_data$`12_comfort major_1`)
+bestem_data$`12_thrilled major_1` <- as.numeric(bestem_data$`12_thrilled major_1`)
+bestem_data$`12_like peers_1` <-  as.numeric(bestem_data$`12_like peers_1`)
+bestem_data$`12_comfort peers_1` <- as.numeric(bestem_data$`12_comfort peers_1`)
+bestem_data$`12_like profs_1` <-  as.numeric(bestem_data$`12_like profs_1`)
+bestem_data$`12_comfort profs_1` <-  as.numeric(bestem_data$`12_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_art_arthist = mean(c_across(103:110)))
+
+bestem_data$`13_fit major_1` <- as.numeric(bestem_data$`13_fit major_1`)
+bestem_data$`13_welcome major_1` <- as.numeric(bestem_data$`13_welcome major_1`)
+bestem_data$`13_comfort major_1` <- as.numeric(bestem_data$`13_comfort major_1`)
+bestem_data$`13_thrilled major_1` <- as.numeric(bestem_data$`13_thrilled major_1`)
+bestem_data$`13_like peers_1` <-  as.numeric(bestem_data$`13_like peers_1`)
+bestem_data$`13_comfort peers_1` <- as.numeric(bestem_data$`13_comfort peers_1`)
+bestem_data$`13_like profs_1` <-  as.numeric(bestem_data$`13_like profs_1`)
+bestem_data$`13_comfort profs_1` <-  as.numeric(bestem_data$`13_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_black_studies = mean(c_across(112:119)))
+
+bestem_data$`14_fit major_1` <- as.numeric(bestem_data$`14_fit major_1`)
+bestem_data$`14_welcome major_1` <- as.numeric(bestem_data$`14_welcome major_1`)
+bestem_data$`14_comfort major_1` <- as.numeric(bestem_data$`14_comfort major_1`)
+bestem_data$`14_thrilled major_1` <- as.numeric(bestem_data$`14_thrilled major_1`)
+bestem_data$`14_like peers_1` <-  as.numeric(bestem_data$`14_like peers_1`)
+bestem_data$`14_comfort peers_1` <- as.numeric(bestem_data$`14_comfort peers_1`)
+bestem_data$`14_like profs_1` <-  as.numeric(bestem_data$`14_like profs_1`)
+bestem_data$`14_comfort profs_1` <-  as.numeric(bestem_data$`14_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_chinese_studies = mean(c_across(121:128)))
+
+bestem_data$`15_fit major_1` <- as.numeric(bestem_data$`15_fit major_1`)
+bestem_data$`15_welcome major_1` <- as.numeric(bestem_data$`15_welcome major_1`)
+bestem_data$`15_comfort major_1` <- as.numeric(bestem_data$`15_comfort major_1`)
+bestem_data$`15_thrilled major_1` <- as.numeric(bestem_data$`15_thrilled major_1`)
+bestem_data$`15_like peers_1` <-  as.numeric(bestem_data$`15_like peers_1`)
+bestem_data$`15_comfort peers_1` <- as.numeric(bestem_data$`15_comfort peers_1`)
+bestem_data$`15_like profs_1` <-  as.numeric(bestem_data$`15_like profs_1`)
+bestem_data$`15_comfort profs_1` <-  as.numeric(bestem_data$`15_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_ctsj = mean(c_across(130:137)))
+
+bestem_data$`16_fit major_1` <- as.numeric(bestem_data$`16_fit major_1`)
+bestem_data$`16_welcome major_1` <- as.numeric(bestem_data$`16_welcome major_1`)
+bestem_data$`16_comfort major_1` <- as.numeric(bestem_data$`16_comfort major_1`)
+bestem_data$`16_thrilled major_1` <- as.numeric(bestem_data$`16_thrilled major_1`)
+bestem_data$`16_like peers_1` <-  as.numeric(bestem_data$`16_like peers_1`)
+bestem_data$`16_comfort peers_1` <- as.numeric(bestem_data$`16_comfort peers_1`)
+bestem_data$`16_like profs_1` <-  as.numeric(bestem_data$`16_like profs_1`)
+bestem_data$`16_comfort profs_1` <-  as.numeric(bestem_data$`16_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_cslc = mean(c_across(139:146)))
+
+bestem_data$`17_fit major_1` <- as.numeric(bestem_data$`17_fit major_1`)
+bestem_data$`17_welcome major_1` <- as.numeric(bestem_data$`17_welcome major_1`)
+bestem_data$`17_comfort major_1` <- as.numeric(bestem_data$`17_comfort major_1`)
+bestem_data$`17_thrilled major_1` <- as.numeric(bestem_data$`17_thrilled major_1`)
+bestem_data$`17_like peers_1` <-  as.numeric(bestem_data$`17_like peers_1`)
+bestem_data$`17_comfort peers_1` <- as.numeric(bestem_data$`17_comfort peers_1`)
+bestem_data$`17_like profs_1` <-  as.numeric(bestem_data$`17_like profs_1`)
+bestem_data$`17_comfort profs_1` <-  as.numeric(bestem_data$`17_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_dwa = mean(c_across(148:155)))
+
+bestem_data$`18_fit major_1` <- as.numeric(bestem_data$`18_fit major_1`)
+bestem_data$`18_welcome major_1` <- as.numeric(bestem_data$`18_welcome major_1`)
+bestem_data$`18_comfort major_1` <- as.numeric(bestem_data$`18_comfort major_1`)
+bestem_data$`18_thrilled major_1` <- as.numeric(bestem_data$`18_thrilled major_1`)
+bestem_data$`18_like peers_1` <-  as.numeric(bestem_data$`18_like peers_1`)
+bestem_data$`18_comfort peers_1` <- as.numeric(bestem_data$`18_comfort peers_1`)
+bestem_data$`18_like profs_1` <-  as.numeric(bestem_data$`18_like profs_1`)
+bestem_data$`18_comfort profs_1` <-  as.numeric(bestem_data$`18_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_east_asian_studies = mean(c_across(157:164)))
+
+bestem_data$`19_fit major_1` <- as.numeric(bestem_data$`19_fit major_1`)
+bestem_data$`19_welcome major_1` <- as.numeric(bestem_data$`19_welcome major_1`)
+bestem_data$`19_comfort major_1` <- as.numeric(bestem_data$`19_comfort major_1`)
+bestem_data$`19_thrilled major_1` <- as.numeric(bestem_data$`19_thrilled major_1`)
+bestem_data$`19_like peers_1` <-  as.numeric(bestem_data$`19_like peers_1`)
+bestem_data$`19_comfort peers_1` <- as.numeric(bestem_data$`19_comfort peers_1`)
+bestem_data$`19_like profs_1` <-  as.numeric(bestem_data$`19_like profs_1`)
+bestem_data$`19_comfort profs_1` <-  as.numeric(bestem_data$`19_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_econ = mean(c_across(166:173)))
+
+bestem_data$`20_fit major_1` <- as.numeric(bestem_data$`20_fit major_1`)
+bestem_data$`20_welcome major_1` <- as.numeric(bestem_data$`20_welcome major_1`)
+bestem_data$`20_comfort major_1` <- as.numeric(bestem_data$`20_comfort major_1`)
+bestem_data$`20_thrilled major_1` <- as.numeric(bestem_data$`20_thrilled major_1`)
+bestem_data$`20_like peers_1` <-  as.numeric(bestem_data$`20_like peers_1`)
+bestem_data$`20_comfort peers_1` <- as.numeric(bestem_data$`20_comfort peers_1`)
+bestem_data$`20_like profs_1` <-  as.numeric(bestem_data$`20_like profs_1`)
+bestem_data$`20_comfort profs_1` <-  as.numeric(bestem_data$`20_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_english = mean(c_across(175:182)))
+
+bestem_data$`21_fit major_1` <- as.numeric(bestem_data$`21_fit major_1`)
+bestem_data$`21_welcome major_1` <- as.numeric(bestem_data$`21_welcome major_1`)
+bestem_data$`21_comfort major_1` <- as.numeric(bestem_data$`21_comfort major_1`)
+bestem_data$`21_thrilled major_1` <- as.numeric(bestem_data$`21_thrilled major_1`)
+bestem_data$`21_like peers_1` <-  as.numeric(bestem_data$`21_like peers_1`)
+bestem_data$`21_comfort peers_1` <- as.numeric(bestem_data$`21_comfort peers_1`)
+bestem_data$`21_like profs_1` <-  as.numeric(bestem_data$`21_like profs_1`)
+bestem_data$`21_comfort profs_1` <-  as.numeric(bestem_data$`21_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_french = mean(c_across(184:191)))
+
+bestem_data$`22_fit major_1` <- as.numeric(bestem_data$`22_fit major_1`)
+bestem_data$`22_welcome major_1` <- as.numeric(bestem_data$`22_welcome major_1`)
+bestem_data$`22_comfort major_1` <- as.numeric(bestem_data$`22_comfort major_1`)
+bestem_data$`22_thrilled major_1` <- as.numeric(bestem_data$`22_thrilled major_1`)
+bestem_data$`22_like peers_1` <-  as.numeric(bestem_data$`22_like peers_1`)
+bestem_data$`22_comfort peers_1` <- as.numeric(bestem_data$`22_comfort peers_1`)
+bestem_data$`22_like profs_1` <-  as.numeric(bestem_data$`22_like profs_1`)
+bestem_data$`22_comfort profs_1` <-  as.numeric(bestem_data$`22_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_group_lang = mean(c_across(193:200)))
+
+bestem_data$`23_fit major_1` <- as.numeric(bestem_data$`23_fit major_1`)
+bestem_data$`23_welcome major_1` <- as.numeric(bestem_data$`23_welcome major_1`)
+bestem_data$`23_comfort major_1` <- as.numeric(bestem_data$`23_comfort major_1`)
+bestem_data$`23_thrilled major_1` <- as.numeric(bestem_data$`23_thrilled major_1`)
+bestem_data$`23_like peers_1` <-  as.numeric(bestem_data$`23_like peers_1`)
+bestem_data$`23_comfort peers_1` <- as.numeric(bestem_data$`23_comfort peers_1`)
+bestem_data$`23_like profs_1` <-  as.numeric(bestem_data$`23_like profs_1`)
+bestem_data$`23_comfort profs_1` <-  as.numeric(bestem_data$`23_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_history = mean(c_across(202:209)))
+
+bestem_data$`24_fit major_1` <- as.numeric(bestem_data$`24_fit major_1`)
+bestem_data$`24_welcome major_1` <- as.numeric(bestem_data$`24_welcome major_1`)
+bestem_data$`24_comfort major_1` <- as.numeric(bestem_data$`24_comfort major_1`)
+bestem_data$`24_thrilled major_1` <- as.numeric(bestem_data$`24_thrilled major_1`)
+bestem_data$`24_like peers_1` <-  as.numeric(bestem_data$`24_like peers_1`)
+bestem_data$`24_comfort peers_1` <- as.numeric(bestem_data$`24_comfort peers_1`)
+bestem_data$`24_like profs_1` <-  as.numeric(bestem_data$`24_like profs_1`)
+bestem_data$`24_comfort profs_1` <-  as.numeric(bestem_data$`24_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_japanese_studies = mean(c_across(211:218)))
+
+bestem_data$`25_fit major_1` <- as.numeric(bestem_data$`25_fit major_1`)
+bestem_data$`25_welcome major_1` <- as.numeric(bestem_data$`25_welcome major_1`)
+bestem_data$`25_comfort major_1` <- as.numeric(bestem_data$`25_comfort major_1`)
+bestem_data$`25_thrilled major_1` <- as.numeric(bestem_data$`25_thrilled major_1`)
+bestem_data$`25_like peers_1` <-  as.numeric(bestem_data$`25_like peers_1`)
+bestem_data$`25_comfort peers_1` <- as.numeric(bestem_data$`25_comfort peers_1`)
+bestem_data$`25_like profs_1` <-  as.numeric(bestem_data$`25_like profs_1`)
+bestem_data$`25_comfort profs_1` <-  as.numeric(bestem_data$`25_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_latinx_studies = mean(c_across(220:227)))
+
+bestem_data$`26_fit major_1` <- as.numeric(bestem_data$`26_fit major_1`)
+bestem_data$`26_welcome major_1` <- as.numeric(bestem_data$`26_welcome major_1`)
+bestem_data$`26_comfort major_1` <- as.numeric(bestem_data$`26_comfort major_1`)
+bestem_data$`26_thrilled major_1` <- as.numeric(bestem_data$`26_thrilled major_1`)
+bestem_data$`26_like peers_1` <-  as.numeric(bestem_data$`26_like peers_1`)
+bestem_data$`26_comfort peers_1` <- as.numeric(bestem_data$`26_comfort peers_1`)
+bestem_data$`26_like profs_1` <-  as.numeric(bestem_data$`26_like profs_1`)
+bestem_data$`26_comfort profs_1` <-  as.numeric(bestem_data$`26_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_mac = mean(c_across(229:236)))
+
+bestem_data$`27_fit major_1` <- as.numeric(bestem_data$`27_fit major_1`)
+bestem_data$`27_welcome major_1` <- as.numeric(bestem_data$`27_welcome major_1`)
+bestem_data$`27_comfort major_1` <- as.numeric(bestem_data$`27_comfort major_1`)
+bestem_data$`27_thrilled major_1` <- as.numeric(bestem_data$`27_thrilled major_1`)
+bestem_data$`27_like peers_1` <-  as.numeric(bestem_data$`27_like peers_1`)
+bestem_data$`27_comfort peers_1` <- as.numeric(bestem_data$`27_comfort peers_1`)
+bestem_data$`27_like profs_1` <-  as.numeric(bestem_data$`27_like profs_1`)
+bestem_data$`27_comfort profs_1` <-  as.numeric(bestem_data$`27_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_music = mean(c_across(238:245)))
+
+bestem_data$`28_fit major_1` <- as.numeric(bestem_data$`28_fit major_1`)
+bestem_data$`28_welcome major_1` <- as.numeric(bestem_data$`28_welcome major_1`)
+bestem_data$`28_comfort major_1` <- as.numeric(bestem_data$`28_comfort major_1`)
+bestem_data$`28_thrilled major_1` <- as.numeric(bestem_data$`28_thrilled major_1`)
+bestem_data$`28_like peers_1` <-  as.numeric(bestem_data$`28_like peers_1`)
+bestem_data$`28_comfort peers_1` <- as.numeric(bestem_data$`28_comfort peers_1`)
+bestem_data$`28_like profs_1` <-  as.numeric(bestem_data$`28_like profs_1`)
+bestem_data$`28_comfort profs_1` <-  as.numeric(bestem_data$`28_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_philosophy = mean(c_across(247:254)))
+
+bestem_data$`29_fit major_1` <- as.numeric(bestem_data$`29_fit major_1`)
+bestem_data$`29_welcome major_1` <- as.numeric(bestem_data$`29_welcome major_1`)
+bestem_data$`29_comfort major_1` <- as.numeric(bestem_data$`29_comfort major_1`)
+bestem_data$`29_thrilled major_1` <- as.numeric(bestem_data$`29_thrilled major_1`)
+bestem_data$`29_like peers_1` <-  as.numeric(bestem_data$`29_like peers_1`)
+bestem_data$`29_comfort peers_1` <- as.numeric(bestem_data$`29_comfort peers_1`)
+bestem_data$`29_like profs_1` <-  as.numeric(bestem_data$`29_like profs_1`)
+bestem_data$`29_comfort profs_1` <-  as.numeric(bestem_data$`29_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_politics = mean(c_across(256:263)))
+
+bestem_data$`30_fit major_1` <- as.numeric(bestem_data$`30_fit major_1`)
+bestem_data$`30_welcome major_1` <- as.numeric(bestem_data$`30_welcome major_1`)
+bestem_data$`30_comfort major_1` <- as.numeric(bestem_data$`30_comfort major_1`)
+bestem_data$`30_thrilled major_1` <- as.numeric(bestem_data$`30_thrilled major_1`)
+bestem_data$`30_like peers_1` <-  as.numeric(bestem_data$`30_like peers_1`)
+bestem_data$`30_comfort peers_1` <- as.numeric(bestem_data$`30_comfort peers_1`)
+bestem_data$`30_like profs_1` <-  as.numeric(bestem_data$`30_like profs_1`)
+bestem_data$`30_comfort profs_1` <-  as.numeric(bestem_data$`30_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_rels = mean(c_across(265:272)))
+
+bestem_data$`31_fit major_1` <- as.numeric(bestem_data$`31_fit major_1`)
+bestem_data$`31_welcome major_1` <- as.numeric(bestem_data$`31_welcome major_1`)
+bestem_data$`31_comfort major_1` <- as.numeric(bestem_data$`31_comfort major_1`)
+bestem_data$`31_thrilled major_1` <- as.numeric(bestem_data$`31_thrilled major_1`)
+bestem_data$`31_like peers_1` <-  as.numeric(bestem_data$`31_like peers_1`)
+bestem_data$`31_comfort peers_1` <- as.numeric(bestem_data$`31_comfort peers_1`)
+bestem_data$`31_like profs_1` <-  as.numeric(bestem_data$`31_like profs_1`)
+bestem_data$`31_comfort profs_1` <-  as.numeric(bestem_data$`31_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_soc = mean(c_across(274:281)))
+
+bestem_data$`32_fit major_1` <- as.numeric(bestem_data$`32_fit major_1`)
+bestem_data$`32_welcome major_1` <- as.numeric(bestem_data$`32_welcome major_1`)
+bestem_data$`32_comfort major_1` <- as.numeric(bestem_data$`32_comfort major_1`)
+bestem_data$`32_thrilled major_1` <- as.numeric(bestem_data$`32_thrilled major_1`)
+bestem_data$`32_like peers_1` <-  as.numeric(bestem_data$`32_like peers_1`)
+bestem_data$`32_comfort peers_1` <- as.numeric(bestem_data$`32_comfort peers_1`)
+bestem_data$`32_like profs_1` <-  as.numeric(bestem_data$`32_like profs_1`)
+bestem_data$`32_comfort profs_1` <-  as.numeric(bestem_data$`32_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_spanish = mean(c_across(283:290)))
+
+bestem_data$`33_fit major_1` <- as.numeric(bestem_data$`33_fit major_1`)
+bestem_data$`33_welcome major_1` <- as.numeric(bestem_data$`33_welcome major_1`)
+bestem_data$`33_comfort major_1` <- as.numeric(bestem_data$`33_comfort major_1`)
+bestem_data$`33_thrilled major_1` <- as.numeric(bestem_data$`33_thrilled major_1`)
+bestem_data$`33_like peers_1` <-  as.numeric(bestem_data$`33_like peers_1`)
+bestem_data$`33_comfort peers_1` <- as.numeric(bestem_data$`33_comfort peers_1`)
+bestem_data$`33_like profs_1` <-  as.numeric(bestem_data$`33_like profs_1`)
+bestem_data$`33_comfort profs_1` <-  as.numeric(bestem_data$`33_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_theater = mean(c_across(292:299)))
+
+bestem_data$`34_fit major_1` <- as.numeric(bestem_data$`34_fit major_1`)
+bestem_data$`34_welcome major_1` <- as.numeric(bestem_data$`34_welcome major_1`)
+bestem_data$`34_comfort major_1` <- as.numeric(bestem_data$`34_comfort major_1`)
+bestem_data$`34_thrilled major_1` <- as.numeric(bestem_data$`34_thrilled major_1`)
+bestem_data$`34_like peers_1` <-  as.numeric(bestem_data$`34_like peers_1`)
+bestem_data$`34_comfort peers_1` <- as.numeric(bestem_data$`34_comfort peers_1`)
+bestem_data$`34_like profs_1` <-  as.numeric(bestem_data$`34_like profs_1`)
+bestem_data$`34_comfort profs_1` <-  as.numeric(bestem_data$`34_comfort profs_1`)
+
+bestem_data <- bestem_data %>% 
+  rowwise() %>%
+  mutate(belongingness_uep = mean(c_across(301:308)))
+
+# No data on independent study majors
 
 ```
 
 "Belongingness in STEM" metric (Average the responses to all questions by each major)
 ```{r}
+belongingness_averages <- bestem_data %>%
+  distinct(across(contains("belongingness")))
+
+colMeans(belongingness_averages, na.rm = T)
+```
+
+Research Experience Metric (0 = none, 1 = any exp., 1 exp., 2 = two experiences, 3 = 3+ experiences picked) 
+```{r}
+bestem_data %>% 
+  distinct(`research experiences`)
+  
+bestem_data <- bestem_data %>% 
+  mutate(research_experiences = case_when(
+    `research experiences` == "Academic year research (e.g., directed or mentored research)" ~ "1",
+    `research experiences` == "STEM-related internship" ~ "1",
+    `research experiences` == "Summer research experience outside of Oxy" ~ "1",
+    `research experiences` == "Summer research experience at Oxy" ~ "1",
+    `research experiences` == "Summer research experience outside of Oxy,STEM-related internship" ~ "2",
+    `research experiences` == "Academic year research (e.g., directed or mentored research),STEM-related internship" ~ "2",
+    `research experiences` == "Academic year research (e.g., directed or mentored research),Summer research experience at Oxy" ~ "2",
+    `research experiences` == "Summer research experience at Oxy,STEM-related internship" ~ "2",
+    `research experiences` == "Academic year research (e.g., directed or mentored research),Summer research experience outside of Oxy" ~ "2",
+    `research experiences` == "Academic year research (e.g., directed or mentored research),Summer research experience outside of Oxy,STEM-related internship" ~ "3",
+    `research experiences` == "Academic year research (e.g., directed or mentored research),Summer research experience at Oxy,Summer research experience outside of Oxy" ~ "3",
+    `research experiences` == "Academic year research (e.g., directed or mentored research),Summer research experience at Oxy,Summer research experience outside of Oxy,STEM-related internship" ~ "3",
+    `research experiences` == "Academic year research (e.g., directed or mentored research),Summer research experience at Oxy,STEM-related internship" ~ "3",
+    TRUE ~ "0"))
+```
+
+Visiting peer advisor/ TA office hours (NA = didn't answer it, 0 = Never, 1 = Less than once a semester, 2 = Once or twice a semester, 3 = A few times a semester, 4 = weekly or more often) 
+
+```{r}
+bestem_data %>% 
+  distinct(`office hours`)
+
+bestem_data <- bestem_data %>% 
+  mutate(office_hours = case_when(
+    `office hours` == "Never" ~ "0",
+    `office hours` == "A few times a semester" ~ "3",
+    `office hours` == "Once or twice in a semester" ~ "2",
+    `office hours` == "Less than once a semester" ~ "1",
+    `office hours` == "Weekly or more often" ~ "4",
+    TRUE ~ "0"))
+```
+
+Study Groups (0 = No, 1 = Yes)
+```{r}
+bestem_data %>% 
+  distinct(`study groups`)
+
+bestem_data <- bestem_data %>% 
+  mutate(study_groups = case_when(
+    `study groups` == "No" ~ "0",
+    `study groups`== "Yes" ~ "1",
+    TRUE ~ "0"))
+```
+
+
+AMP (0 = NA's, no participation, 1 = visited peer office hours rarely or very occasionally, 2 = students indicated taking full advantage of peer office hours)
+```{r}
+bestem_data %>% 
+  distinct(AMP)
+
+bestem_data <- bestem_data %>% 
+  mutate(utilize_AMP = case_when(
+    `AMP` == "Other" ~ "0",
+    `AMP` == "Didn't attend as it did not apply to any of my courses" ~ "0",
+    `AMP` == "Didn't attend as it did not apply to any of my courses,Other" ~ "0",
+    `AMP` == "Attended sometimes for one or more courses" ~ "1",
+    `AMP` == "Didn't attend as it did not apply to any of my courses,Attended sometimes for one or more courses"
+    ~ "1",
+    `AMP` == "Attended frequently for one or more courses" ~ "2",
+    `AMP` == "Attended frequently for one or more courses,Served as a facilitator" ~ "2",
+    `AMP` == "Attended sometimes for one or more courses,Attended frequently for one or more courses" 
+    ~ "2",
+    `AMP` == "Served as a facilitator" ~ "2",
+    `AMP` == "Attended sometimes for one or more courses,Served as a facilitator" ~ "2",
+    TRUE ~ "0"))
 
 ```
 
-Research Experience Metric (0 = none, 1 = any exp., 1 exp., 2 = two experiences, 3 = 3+ experiences picked) + "Belongingness" Score
+SSAP (0 = NA's, no participation, 1 = visited peer office hours rarely or very occasionally, 2 = students indicated taking full advantage of peer office hours)
 ```{r}
+bestem_data %>% 
+  distinct(SSAP)
+
+bestem_data <- bestem_data %>% 
+  mutate(utilize_SSAP = case_when(
+    `SSAP` == "Other" ~ "0",
+    `SSAP` == "Didn't attend as it did not apply to any of my courses" ~ "0",
+    `SSAP` == "Attended sometimes for one or more courses" ~ "1",
+    `SSAP` == "Attended sometimes for one or more courses,Other" ~ "1",
+    `SSAP` == "Didn't attend as it did not apply to any of my courses,Attended sometimes for one or more courses"
+    ~ "1",
+    `SSAP` == "Attended frequently for one or more courses" ~ "2",
+    `SSAP` == "Attended frequently for one or more courses,Served as a facilitator" ~ "2",
+    `SSAP` == "Attended sometimes for one or more courses,Attended frequently for one or more courses" 
+    ~ "2",
+    `SSAP` == "Served as a facilitator" ~ "2",
+    `SSAP` == "Attended sometimes for one or more courses,Served as a facilitator" ~ "2",
+    TRUE ~ "0"))
 
 ```
 
-
-Peer Learning/ Support (Peer OH's, ) (0 = NA's, no participation, 1 = visited peer office hours rarely or very occasionally, 2 = students indicated taking full advantage of peer office hours)
+"Peer Learning" Score (New variable called peer learning (study groups, AMP, SSAP, and peer OH))
 ```{r}
+bestem_data$study_groups <- as.numeric(bestem_data$study_groups)
+bestem_data$utilize_AMP <- as.numeric(bestem_data$utilize_AMP)
+bestem_data$utilize_SSAP <- as.numeric(bestem_data$utilize_SSAP)
+bestem_data$office_hours <- as.numeric(bestem_data$office_hours)
 
+bestem_data <- bestem_data %>%
+  rowwise() %>%
+  mutate(peer_learning_score = mean(c_across(383:386)))
 ```
 
-AMP/SSAP (0 = NA's, no participation, 1 = visited peer office hours rarely or very occasionally, 2 = students indicated taking full advantage of peer office hours)
 ```{r}
+bestem_data %>%
+  distinct(clubs_1_TEXT)
 
-```
-
-STEM-related clubs (0 = students indicated no participation, 1 = students indicated that they were a member of a STEM-related club, 2 = students indicated that they held a leadership position)
-```{r}
-
-```
-
-Visiting peer advisor/ TA office hours (NA = didn't answer it, 0 = never went, 1 = Never,2 = Less than once a semseter, 3 = Once or twice a semester, 4 = ) + separate than a "Belongingness" Score (New variable called peer learning (study groups, AMP, SSAP, and peer OH))
-```{r}
+bestem_data <- bestem_data %>%
+  mutate(club = case_when(
+    `clubs_1_TEXT` == "" ~ "1",
+    `clubs_1_TEXT` == "" ~ "1",
+    TRUE ~ "0"))
 
 ```
 
@@ -222,3 +737,7 @@ STEM-related clubs (0 = no clubs, 1 = one club, 2 = multiple clubs)
 
 ```
 
+Export  
+```{r}
+# write_csv(bestem_data, "bestem_data_07012021.csv")
+```

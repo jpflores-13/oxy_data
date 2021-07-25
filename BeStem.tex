@@ -1,0 +1,450 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Belonging in STEM survey tidysesh},
+  pdfauthor={JP Flores},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Belonging in STEM survey tidysesh}
+\author{JP Flores}
+\date{5/3/2021}
+
+\begin{document}
+\maketitle
+
+Load the packages
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+\end{verbatim}
+
+\begin{verbatim}
+## v ggplot2 3.3.3     v purrr   0.3.4
+## v tibble  3.1.2     v dplyr   1.0.6
+## v tidyr   1.1.3     v stringr 1.4.0
+## v readr   1.4.0     v forcats 0.5.1
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(readxl)}
+\FunctionTok{library}\NormalTok{(janitor)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'janitor'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     chisq.test, fisher.test
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(plotly)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'plotly'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:ggplot2':
+## 
+##     last_plot
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:stats':
+## 
+##     filter
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:graphics':
+## 
+##     layout
+\end{verbatim}
+
+Import the data
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bestem\_data }\OtherTok{\textless{}{-}}\FunctionTok{read\_csv}\NormalTok{(}\StringTok{"/Users/jpflores/Desktop/Desktop {-} JP’s MacBook Pro/bestem/data through 5\_30.xlsx {-} anonymizing the data.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Missing column names filled in: 'X15' [15], 'X16' [16], 'X17' [17],
+## 'X27' [27], 'X28' [28], 'X29' [29], 'X39' [39], 'X40' [40], 'X41' [41],
+## 'X51' [51], 'X52' [52], 'X53' [53], 'X63' [63], 'X64' [64], 'X65' [65],
+## 'X75' [75], 'X76' [76], 'X77' [77], 'X87' [87], 'X88' [88], 'X89' [89],
+## 'X99' [99], 'X100' [100], 'X101' [101], 'X111' [111], 'X112' [112],
+## 'X113' [113], 'X123' [123], 'X124' [124], 'X125' [125], 'X135' [135],
+## 'X136' [136], 'X137' [137], 'X147' [147], 'X148' [148], 'X149' [149],
+## 'X159' [159], 'X160' [160], 'X161' [161], 'X171' [171], 'X172' [172],
+## 'X173' [173], 'X183' [183], 'X184' [184], 'X185' [185], 'X195' [195],
+## 'X196' [196], 'X197' [197], 'X207' [207], 'X208' [208], 'X209' [209],
+## 'X219' [219], 'X220' [220], 'X221' [221], 'X231' [231], 'X232' [232],
+## 'X233' [233], 'X243' [243], 'X244' [244], 'X245' [245], 'X255' [255],
+## 'X256' [256], 'X257' [257], 'X267' [267], 'X268' [268], 'X269' [269],
+## 'X279' [279], 'X280' [280], 'X281' [281], 'X291' [291], 'X292' [292],
+## 'X293' [293], 'X303' [303], 'X304' [304], 'X305' [305], 'X315' [315],
+## 'X316' [316], 'X317' [317], 'X327' [327], 'X328' [328], 'X329' [329],
+## 'X339' [339], 'X340' [340], 'X341' [341], 'X351' [351], 'X352' [352],
+## 'X353' [353], 'X363' [363], 'X364' [364], 'X365' [365], 'X375' [375],
+## 'X376' [376], 'X377' [377], 'X387' [387], 'X388' [388], 'X389' [389],
+## 'X399' [399], 'X400' [400], 'X401' [401], 'X411' [411], 'X412' [412],
+## 'X413' [413], 'X423' [423], 'X424' [424], 'X438' [438], 'X440' [440],
+## 'X441' [441], 'X442' [442], 'X443' [443], 'X444' [444], 'X445' [445],
+## 'X447' [447], 'X448' [448]
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   .default = col_character(),
+##   `Row # from Qualtrics` = col_double(),
+##   X15 = col_logical(),
+##   X16 = col_logical(),
+##   X17 = col_logical(),
+##   X27 = col_logical(),
+##   X28 = col_logical(),
+##   X29 = col_logical(),
+##   X39 = col_logical(),
+##   X40 = col_logical(),
+##   X41 = col_logical(),
+##   X51 = col_logical(),
+##   X52 = col_logical(),
+##   X53 = col_logical(),
+##   X63 = col_logical(),
+##   X64 = col_logical(),
+##   X65 = col_logical(),
+##   X75 = col_logical(),
+##   X76 = col_logical(),
+##   X77 = col_logical(),
+##   X87 = col_logical()
+##   # ... with 94 more columns
+## )
+## i Use `spec()` for the full column specifications.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# View(bestem\_data)}
+
+\NormalTok{bestem\_data }\OtherTok{\textless{}{-}}\NormalTok{ bestem\_data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}} \StringTok{\textasciigrave{}}\AttributeTok{Row \# from Qualtrics}\StringTok{\textasciigrave{}}\NormalTok{,}
+         \SpecialCharTok{{-}}\NormalTok{ ResponseId,}\SpecialCharTok{{-}}\NormalTok{ X15, }\SpecialCharTok{{-}}\NormalTok{ X16, }\SpecialCharTok{{-}}\NormalTok{ X17, }\SpecialCharTok{{-}}\NormalTok{ X27, }\SpecialCharTok{{-}}\NormalTok{ X28, }\SpecialCharTok{{-}}\NormalTok{ X29, }\SpecialCharTok{{-}}\NormalTok{ X39, }\SpecialCharTok{{-}}\NormalTok{ X40,}
+         \SpecialCharTok{{-}}\NormalTok{ X41, }\SpecialCharTok{{-}}\NormalTok{ X51, }\SpecialCharTok{{-}}\NormalTok{ X52, }\SpecialCharTok{{-}}\NormalTok{ X53, }\SpecialCharTok{{-}}\NormalTok{ X63, }\SpecialCharTok{{-}}\NormalTok{ X64, }\SpecialCharTok{{-}}\NormalTok{ X65, }\SpecialCharTok{{-}}\NormalTok{ X75, }\SpecialCharTok{{-}}\NormalTok{ X76, }\SpecialCharTok{{-}}\NormalTok{ X77, }\SpecialCharTok{{-}}\NormalTok{ X87, }\SpecialCharTok{{-}}\NormalTok{ X88, }\SpecialCharTok{{-}}\NormalTok{ X89,}
+         \SpecialCharTok{{-}}\NormalTok{ X99, }\SpecialCharTok{{-}}\NormalTok{ X100, }\SpecialCharTok{{-}}\NormalTok{ X101, }\SpecialCharTok{{-}}\NormalTok{ X111, }\SpecialCharTok{{-}}\NormalTok{ X112, }\SpecialCharTok{{-}}\NormalTok{ X113, }\SpecialCharTok{{-}}\NormalTok{ X123, }\SpecialCharTok{{-}}\NormalTok{ X124, }\SpecialCharTok{{-}}\NormalTok{ X125, }\SpecialCharTok{{-}}\NormalTok{ X135, }\SpecialCharTok{{-}}\NormalTok{ X136,}
+         \SpecialCharTok{{-}}\NormalTok{ X137, }\SpecialCharTok{{-}}\NormalTok{ X147, }\SpecialCharTok{{-}}\NormalTok{ X148, }\SpecialCharTok{{-}}\NormalTok{ X149, }\SpecialCharTok{{-}}\NormalTok{ X159, }\SpecialCharTok{{-}}\NormalTok{ X160, }\SpecialCharTok{{-}}\NormalTok{ X161, }\SpecialCharTok{{-}}\NormalTok{ X171, }\SpecialCharTok{{-}}\NormalTok{ X172, }\SpecialCharTok{{-}}\NormalTok{ X173, }\SpecialCharTok{{-}}\NormalTok{ X183,}
+         \SpecialCharTok{{-}}\NormalTok{ X184, }\SpecialCharTok{{-}}\NormalTok{ X185, }\SpecialCharTok{{-}}\NormalTok{ X195, }\SpecialCharTok{{-}}\NormalTok{ X196, }\SpecialCharTok{{-}}\NormalTok{ X197, }\SpecialCharTok{{-}}\NormalTok{ X207, }\SpecialCharTok{{-}}\NormalTok{ X208, }\SpecialCharTok{{-}}\NormalTok{ X209, }\SpecialCharTok{{-}}\NormalTok{ X219, }\SpecialCharTok{{-}}\NormalTok{ X220,}
+         \SpecialCharTok{{-}}\NormalTok{ X221, }\SpecialCharTok{{-}}\NormalTok{ X231, }\SpecialCharTok{{-}}\NormalTok{ X232, }\SpecialCharTok{{-}}\NormalTok{ X233, }\SpecialCharTok{{-}}\NormalTok{ X243, }\SpecialCharTok{{-}}\NormalTok{ X244, }\SpecialCharTok{{-}}\NormalTok{ X245, }\SpecialCharTok{{-}}\NormalTok{ X255, }\SpecialCharTok{{-}}\NormalTok{ X256, }\SpecialCharTok{{-}}\NormalTok{ X257,}\SpecialCharTok{{-}}\NormalTok{ X267,}
+         \SpecialCharTok{{-}}\NormalTok{ X268, }\SpecialCharTok{{-}}\NormalTok{ X269, }\SpecialCharTok{{-}}\NormalTok{ X279, }\SpecialCharTok{{-}}\NormalTok{ X280, }\SpecialCharTok{{-}}\NormalTok{ X281, }\SpecialCharTok{{-}}\NormalTok{ X291, }\SpecialCharTok{{-}}\NormalTok{ X292, }\SpecialCharTok{{-}}\NormalTok{ X293, }\SpecialCharTok{{-}}\NormalTok{ X303, }\SpecialCharTok{{-}}\NormalTok{X304, }\SpecialCharTok{{-}}\NormalTok{ X305,}
+         \SpecialCharTok{{-}}\NormalTok{ X315, }\SpecialCharTok{{-}}\NormalTok{ X316, }\SpecialCharTok{{-}}\NormalTok{ X317, }\SpecialCharTok{{-}}\NormalTok{ X327, }\SpecialCharTok{{-}}\NormalTok{ X328, }\SpecialCharTok{{-}}\NormalTok{ X329, }\SpecialCharTok{{-}}\NormalTok{ X339, }\SpecialCharTok{{-}}\NormalTok{ X340, }\SpecialCharTok{{-}}\NormalTok{ X341, }\SpecialCharTok{{-}}\NormalTok{ X351, }\SpecialCharTok{{-}}\NormalTok{ X352,}
+         \SpecialCharTok{{-}}\NormalTok{ X353, }\SpecialCharTok{{-}}\NormalTok{ X363, }\SpecialCharTok{{-}}\NormalTok{ X364, }\SpecialCharTok{{-}}\NormalTok{ X365, }\SpecialCharTok{{-}}\NormalTok{ X375, }\SpecialCharTok{{-}}\NormalTok{ X376, }\SpecialCharTok{{-}}\NormalTok{ X377, }\SpecialCharTok{{-}}\NormalTok{ X387, }\SpecialCharTok{{-}}\NormalTok{ X388, }\SpecialCharTok{{-}}\NormalTok{ X389, }\SpecialCharTok{{-}}\NormalTok{ X399,}
+         \SpecialCharTok{{-}}\NormalTok{ X400, }\SpecialCharTok{{-}}\NormalTok{ X401, }\SpecialCharTok{{-}}\NormalTok{ X411, }\SpecialCharTok{{-}}\NormalTok{ X412, }\SpecialCharTok{{-}}\NormalTok{ X413, }\SpecialCharTok{{-}}\NormalTok{ X423, }\SpecialCharTok{{-}}\NormalTok{ X424, }\SpecialCharTok{{-}}\NormalTok{ X438, }\SpecialCharTok{{-}}\NormalTok{ X440, }\SpecialCharTok{{-}}\NormalTok{ X441, }\SpecialCharTok{{-}}\NormalTok{ X442, }\SpecialCharTok{{-}}\NormalTok{ X443, }
+         \SpecialCharTok{{-}}\NormalTok{ X444, }\SpecialCharTok{{-}}\NormalTok{ X445, }\SpecialCharTok{{-}}\NormalTok{ X447, }\SpecialCharTok{{-}}\NormalTok{ X448}
+\NormalTok{         )}
+
+\NormalTok{bestem\_data }\OtherTok{\textless{}{-}}\NormalTok{ bestem\_data[}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{) , ]}
+
+\NormalTok{bestem\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{count}\NormalTok{(major)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 64 x 2
+##    major                                                          n
+##    <chr>                                                      <int>
+##  1 Art & Art History,Biology                                      1
+##  2 Biochemistry                                                  13
+##  3 Biochemistry,Biology                                           1
+##  4 Biochemistry,Comparative Studies in Literature and Culture     1
+##  5 Biochemistry,Computer Science                                  1
+##  6 Biochemistry,Theater                                           1
+##  7 Biology                                                       44
+##  8 Biology,Cognitive Science                                      2
+##  9 Biology,Kinesiology,Psychology                                 1
+## 10 Biology,Theater                                                1
+## # ... with 54 more rows
+\end{verbatim}
+
+Export for Sherman and Levitan for further direction on how to organize
+the data
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{write\_csv}\NormalTok{(bestem\_data, }\StringTok{"bestem\_data\_06222021.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Add column (Were they a declared STEM major? ex. Biochemistry, Biology,
+Chemistry, Computer Science, Cognitive Science, Geology, Kinesiology,
+Mathematics, Physics, or Psychology)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{declared\_stem }\OtherTok{\textless{}{-}}\NormalTok{ bestem\_data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(any\_STEM }\SpecialCharTok{==} \StringTok{"Yes"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(know\_major }\SpecialCharTok{==} \StringTok{"Yes"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(major }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"Biology"}\NormalTok{, }\StringTok{"Biochemistry"}\NormalTok{, }\StringTok{"Chemistry"}\NormalTok{, }\StringTok{"Computer Science"}\NormalTok{, }\StringTok{"Cognitive   Science"}\NormalTok{,}\StringTok{"Geology"}\NormalTok{,}\StringTok{"Kinesiology"}\NormalTok{, }\StringTok{"Mathematics"}\NormalTok{, }\StringTok{"Physics"}\NormalTok{, }\StringTok{"Psychology"}\NormalTok{, }\StringTok{"Computer Science,Economics"}\NormalTok{, }\StringTok{"Cognitive Science,Philosophy"}\NormalTok{, }\StringTok{"Cognitive Science,Group Language"}\NormalTok{, }\StringTok{"Biology,Kinesiology,Psychology"}\NormalTok{, }\StringTok{"Computer Science,Economics"}\NormalTok{, }\StringTok{"Art \& Art History,Biology"}\NormalTok{,}
+\StringTok{"Biochemistry,Biology"}\NormalTok{, }\StringTok{"Biochemistry,Computer Science"}\NormalTok{, }\StringTok{"Biochemistry,Theater"}\NormalTok{,}
+\StringTok{"Biology,Theater"}\NormalTok{, }\StringTok{"Biology,Cognitive Science"}\NormalTok{, }\StringTok{"Chemistry,Chinese Studies"}\NormalTok{, }\StringTok{"Cognitive Science,Computer Science"}\NormalTok{, }\StringTok{"Cognitive Science,Economics"}\NormalTok{, }\StringTok{"Cognitive Science,Theater"}\NormalTok{, }\StringTok{"Comparative Studies in Literature and Culture,Computer Science"}\NormalTok{, }\StringTok{"Comparative Studies in Literature and Culture,Mathematics"}\NormalTok{, }\StringTok{"Computer Science,Mathematics"}\NormalTok{, }\StringTok{"Computer Science,Media Arts \& Culture"}\NormalTok{,}
+\StringTok{"Computer Science,Physics"}\NormalTok{, }\StringTok{"Computer Science,Theater"}\NormalTok{, }\StringTok{"Economics,Mathematics"}\NormalTok{, }\StringTok{"Mathematics,Physics"}\NormalTok{, }\StringTok{"Psychology,Spanish Studies"}\NormalTok{))}
+
+         
+\NormalTok{bestem\_data }\OtherTok{\textless{}{-}}\NormalTok{ bestem\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{stem\_major =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Biology"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{, }
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Biochemistry"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Chemistry"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Computer Science"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Cognitive Science"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Geology"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Kinesiology"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Mathematics"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Physics"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Psychology"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Art \& Art History,Biology"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Biochemistry,Biology"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Biochemistry,Comparative Studies in Literature and Culture"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Biochemistry,Computer Science"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Biochemistry,Theater"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Biology,Kinesiology,Psychology"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Biology,Theater"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Biology,Cognitive Science"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Computer Science,Economics"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Cognitive Science,Philosophy"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Cognitive Science,Group Language"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Chemistry,Chinese Studies"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Cognitive Science,Computer Science"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Cognitive Science,Economics"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Cognitive Science,Theater"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Comparative Studies in Literature and Culture,Computer Science"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Comparative Studies in Literature and Culture,Mathematics"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Computer Science,Mathematics"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Computer Science,Media Arts \& Culture"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Computer Science,Physics"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Computer Science,Theater"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Economics,Mathematics"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Mathematics,Physics"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Psychology,Spanish Studies"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+    \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \StringTok{"no"}\NormalTok{))}
+    \CommentTok{\# TRUE \textasciitilde{} NA\_character\_))}
+\end{Highlighting}
+\end{Shaded}
+
+Add column (Were they an intended STEM major?)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bestem\_data }\OtherTok{\textless{}{-}}\NormalTok{ bestem\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{intention\_in\_stem =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{  know\_major }\SpecialCharTok{==} \StringTok{"Not sure of the exact major, but something in STEM"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{  know\_major }\SpecialCharTok{==} \StringTok{"Not sure of the major, definitely not STEM"} \SpecialCharTok{\textasciitilde{}} \StringTok{"none"}\NormalTok{,}
+\NormalTok{  know\_major }\SpecialCharTok{==} \StringTok{"Not sure of the major, might be in STEM"} \SpecialCharTok{\textasciitilde{}} \StringTok{"undecided"}\NormalTok{,}
+\NormalTok{  know\_major }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\textasciitilde{}} \StringTok{"declared"}\NormalTok{,}
+\NormalTok{  know\_major }\SpecialCharTok{==} \StringTok{"No, but I\textquotesingle{}ve already figured out my intended major(s)"} \SpecialCharTok{\textasciitilde{}} \StringTok{"figured it out"}\NormalTok{,}
+  \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \ConstantTok{NA\_character\_}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Add column (double STEM major)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bestem\_data }\OtherTok{\textless{}{-}}\NormalTok{ bestem\_data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{double\_stem =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Biochemistry,Biology"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Biochemistry,Computer Science"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Biology,Kinesiology,Psychology"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Biology,Cognitive Science"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Cognitive Science,Computer Science"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Computer Science,Mathematics"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Computer Science,Physics"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Mathematics,Physics"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+    \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \StringTok{"no"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Add column (double non-STEM major)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bestem\_data }\OtherTok{\textless{}{-}}\NormalTok{ bestem\_data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{double\_non\_stem =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Art \& Art History,Biology"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Biochemistry,Comparative Studies in Literature and Culture"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Biochemistry,Theater"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Biology,Theater"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Computer Science,Economics"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Cognitive Science,Philosophy"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Cognitive Science,Group Language"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Chemistry,Chinese Studies"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Cognitive Science,Economics"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Cognitive Science,Theater"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Comparative Studies in Literature and Culture,Computer Science"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Comparative Studies in Literature and Culture,Mathematics"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Computer Science,Media Arts \& Culture"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Computer Science,Theater"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Economics,Mathematics"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+\NormalTok{    major }\SpecialCharTok{==} \StringTok{"Psychology,Spanish Studies"} \SpecialCharTok{\textasciitilde{}} \StringTok{"yes"}\NormalTok{,}
+    \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \StringTok{"no"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+``Belongingness in STEM'' metric (Average the responses to all questions
+by individual by first major)
+
+``Belongingness in STEM'' metric (Average the responses to all questions
+by individual by second major)
+
+``Belongingness in STEM'' metric (Average the responses to all questions
+by individual by third major)
+
+``Belongingness in STEM'' metric (Average the responses to all questions
+by each major)
+
+Research Experience Metric (0 = none, 1 = any exp., 1 exp., 2 = two
+experiences, 3 = 3+ experiences picked) + ``Belongingness'' Score
+
+Peer Learning/ Support (Peer OH's, ) (0 = NA's, no participation, 1 =
+visited peer office hours rarely or very occasionally, 2 = students
+indicated taking full advantage of peer office hours)
+
+AMP/SSAP (0 = NA's, no participation, 1 = visited peer office hours
+rarely or very occasionally, 2 = students indicated taking full
+advantage of peer office hours)
+
+STEM-related clubs (0 = students indicated no participation, 1 =
+students indicated that they were a member of a STEM-related club, 2 =
+students indicated that they held a leadership position)
+
+Visiting peer advisor/ TA office hours (NA = didn't answer it, 0 = never
+went, 1 = Never,2 = Less than once a semseter, 3 = Once or twice a
+semester, 4 = ) + separate than a ``Belongingness'' Score (New variable
+called peer learning (study groups, AMP, SSAP, and peer OH))
+
+STEM-related clubs (0 = no clubs, 1 = one club, 2 = multiple clubs)
+
+\end{document}
